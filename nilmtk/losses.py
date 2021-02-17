@@ -1,6 +1,17 @@
 from sklearn.metrics import mean_squared_error, mean_absolute_error, f1_score, r2_score
 import numpy as np
 
+def EEd (app_gt,app_pred):
+    #Energy Error per device
+    # EEd = Sum(|E - E'|)/E
+    interval = app_gt.index.freq.delta.total_seconds()
+
+    real_energy = np.trapz(app_gt.to_numpy(),dx=interval)
+    predicted_energy = np.trapz(app_pred.to_numpy(),dx=interval)
+
+    return(np.abs(real_energy-predicted_energy)/real_energy)
+
+
 def mae(app_gt,app_pred):
     return mean_absolute_error(app_gt,app_pred)
 
